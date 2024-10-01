@@ -1,3 +1,4 @@
+cargo
 clang-tools-extra
 fzf
 gcc
@@ -5,8 +6,10 @@ gcc-c++
 golang
 htop
 jq
+lua-language-server
 npm
 ripgrep
-rustup
+rust
+rust-analyzer
 tmux
 wl-clipboard

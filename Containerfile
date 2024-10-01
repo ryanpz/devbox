@@ -1,8 +1,10 @@
 FROM ghcr.io/ublue-os/fedora-toolbox:latest
 
-COPY extra-packages /
+RUN dnf copr enable yorickpeterse/lua-language-server -y
+COPY extra-packages install-devtools /
 RUN dnf upgrade && \
     grep -v '^#' /extra-packages | xargs dnf install -y
-RUN rm /extra-packages
+RUN /install-devtools
+RUN rm /extra-packages /install-devtools
 
 RUN   ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/podman
