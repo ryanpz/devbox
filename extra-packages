@@ -1,6 +1,7 @@
 cargo
 clang-tools-extra
 clippy
+cmake
 fzf
 gcc
 gcc-c++
@@ -8,10 +9,13 @@ golang
 htop
 jq
 lua-language-server
+ninja-build
 npm
 ripgrep
 rust
 rust-analyzer
 rustfmt
+shellcheck
+shfmt
 tmux
 wl-clipboard
