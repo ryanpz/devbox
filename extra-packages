@@ -19,3 +19,4 @@ shellcheck
 shfmt
 tmux
 wl-clipboard
+zig

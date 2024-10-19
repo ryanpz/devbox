@@ -2,8 +2,17 @@
 
 set -e
 
+tmp_dir=$(mktemp -d)
+trap 'rm -rf $tmp_dir' EXIT
+
 npm install -g typescript typescript-language-server
 npm install -g svelte-language-server
 npm install -g pyright
 
 GOBIN="/usr/local/bin" go install golang.org/x/tools/gopls@latest
+
+cd "$tmp_dir"
+tarball_name="zls.tar.xz"
+curl -Lo "$tarball_name" https://github.com/zigtools/zls/releases/latest/download/zls-x86_64-linux.tar.xz
+tar -xf "$tarball_name"
+mv ./zls /usr/local/bin
