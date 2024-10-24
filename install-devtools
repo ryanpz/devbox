@@ -12,7 +12,14 @@ npm install -g pyright
 GOBIN="/usr/local/bin" go install golang.org/x/tools/gopls@latest
 
 cd "$tmp_dir"
+
 tarball_name="zls.tar.xz"
 curl -Lo "$tarball_name" https://github.com/zigtools/zls/releases/latest/download/zls-x86_64-linux.tar.xz
 tar -xf "$tarball_name"
 mv ./zls /usr/local/bin
+
+tarball_name="nvim.tar.gz"
+curl -Lo "$tarball_name" https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
+tar -xz --no-same-owner --no-same-permissions -f "$tarball_name"
+cd nvim-linux64
+cp -r bin lib share /usr/
