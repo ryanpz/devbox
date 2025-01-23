@@ -1,4 +1,4 @@
-name: build-dev-box
+name: build-devbox
 on:
   pull_request:
     branches:
@@ -11,7 +11,7 @@ on:
     paths-ignore:
       - '**/README.md'
 env:
-    IMAGE_NAME: dev-box
+    IMAGE_NAME: devbox
     IMAGE_TAGS: latest
     IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 
@@ -38,7 +38,7 @@ jobs:
           images: |
             ${{ env.IMAGE_NAME }}
           labels: |
-            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/ryanpz/dev-box/main/README.md
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/ryanpz/devbox/main/README.md
 
       # Build image using Buildah action
       - name: Build Image
