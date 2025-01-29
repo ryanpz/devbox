@@ -19,7 +19,7 @@ tar -xf "$tarball_name"
 mv ./zls /usr/local/bin
 
 tarball_name="nvim.tar.gz"
-curl -fLo "$tarball_name" https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
+curl -fLo "$tarball_name" https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz
 tar -xz --no-same-owner --no-same-permissions -f "$tarball_name"
-cd nvim-linux64
+cd nvim-linux-x86_64
 cp -r bin lib share /usr/
