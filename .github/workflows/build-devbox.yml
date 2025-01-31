@@ -12,7 +12,6 @@ on:
       - '**/README.md'
 env:
     IMAGE_NAME: devbox
-    IMAGE_TAGS: latest
     IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 
 jobs:
@@ -40,6 +39,22 @@ jobs:
           labels: |
             io.artifacthub.package.readme-url=https://raw.githubusercontent.com/ryanpz/devbox/main/README.md
 
+      - name: Generate tags
+        id: generate-tags
+        shell: bash
+        run: |
+          # Generate a timestamp for creating an image version history
+          TIMESTAMP="$(date +%Y%m%d)"
+          BUILD_TAGS=("latest ${TIMESTAMP}")
+
+          echo "Generated the following build tags: "
+          for TAG in "${BUILD_TAGS[@]}"; do
+              echo "${TAG}"
+          done
+
+          echo "tags=${BUILD_TAGS[*]}" >> $GITHUB_OUTPUT
+
+
       # Build image using Buildah action
       - name: Build Image
         id: build_image
@@ -48,7 +63,8 @@ jobs:
           containerfiles: |
             ./Containerfile
           image: ${{ env.IMAGE_NAME }}
-          tags: ${{ env.IMAGE_TAGS }}
+          tags: |
+            ${{ steps.generate-tags.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           oci: false
           
