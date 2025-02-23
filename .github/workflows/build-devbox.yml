@@ -10,6 +10,7 @@ on:
       - main
     paths-ignore:
       - '**/README.md'
+  workflow_dispatch:
 env:
     IMAGE_NAME: devbox
     IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
