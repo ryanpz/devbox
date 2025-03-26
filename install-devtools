@@ -3,23 +3,36 @@
 set -e
 
 tmp_dir=$(mktemp -d)
+install_prefix="/usr/local"
 trap 'rm -rf $tmp_dir' EXIT
 
 npm install -g typescript typescript-language-server
 npm install -g svelte-language-server
 npm install -g pyright
 
-GOBIN="/usr/local/bin" go install golang.org/x/tools/gopls@latest
+GOBIN="$install_prefix/bin" go install golang.org/x/tools/gopls@latest
+
+cd "$tmp_dir"
+
+ZIG_VERSION="0.14.0"
+
+tarball_name="zig.tar.xz"
+curl -fLo "$tarball_name" https://ziglang.org/download/"$ZIG_VERSION"/zig-linux-x86_64-"$ZIG_VERSION".tar.xz
+tar -x --no-same-owner --no-same-permissions -f "$tarball_name"
+cd zig-linux-x86_64-"$ZIG_VERSION"
+cp ./zig "$install_prefix"/bin
+mkdir -p "$install_prefix"/lib/zig
+cp -r lib/* "$install_prefix"/lib/zig
 
 cd "$tmp_dir"
 
 tarball_name="zls.tar.xz"
-curl -fLo "$tarball_name" https://github.com/zigtools/zls/releases/latest/download/zls-x86_64-linux.tar.xz
-tar -xf "$tarball_name"
-mv ./zls /usr/local/bin
+curl -fLo "$tarball_name" https://builds.zigtools.org/zls-linux-x86_64-"$ZIG_VERSION".tar.xz
+tar -x --no-same-owner --no-same-permissions -f "$tarball_name"
+mv ./zls "$install_prefix"/bin
 
 tarball_name="nvim.tar.gz"
 curl -fLo "$tarball_name" https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz
 tar -xz --no-same-owner --no-same-permissions -f "$tarball_name"
 cd nvim-linux-x86_64
-cp -r bin lib share /usr/
+cp -r bin lib share "$install_prefix"

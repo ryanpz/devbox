@@ -8,6 +8,7 @@ gcc-c++
 golang
 htop
 jq
+lld-libs
 lua-language-server
 ninja-build
 npm
@@ -19,4 +20,3 @@ shellcheck
 shfmt
 tmux
 wl-clipboard
-zig
