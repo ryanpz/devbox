@@ -9,7 +9,6 @@ golang
 htop
 jq
 lld-libs
-lua-language-server
 ninja-build
 npm
 ripgrep
