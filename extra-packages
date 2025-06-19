@@ -18,4 +18,5 @@ rustfmt
 shellcheck
 shfmt
 tmux
+tree-sitter-cli
 wl-clipboard
