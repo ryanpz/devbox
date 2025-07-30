@@ -40,3 +40,7 @@ cp -r "$nvim_dir"/nvim-*/bin "$nvim_dir"/nvim-*/lib "$nvim_dir"/nvim-*/share "$i
 
 emmylua_dir="$(dl_untar https://github.com/EmmyLuaLs/emmylua-analyzer-rust/releases/latest/download/emmylua_ls-linux-x64.tar.gz)"
 cp "$emmylua_dir"/emmylua_ls "$install_prefix"/bin
+
+jj_latest_url="$(curl -s https://api.github.com/repos/jj-vcs/jj/releases/latest | jq -r '.assets[] | select(.name | contains("x86_64-unknown-linux")) | .browser_download_url' | head -1)"
+jj_dir="$(dl_untar "$jj_latest_url")"
+cp "$jj_dir"/jj "$install_prefix"/bin
