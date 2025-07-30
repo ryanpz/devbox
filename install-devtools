@@ -2,39 +2,41 @@
 
 set -e
 
+dl_untar() {
+	_archive="${1##*/}"
+	_extract_dir="${_archive%.tar*}"
+
+	curl -fLo "$_archive" "$1"
+	mkdir -p "$_extract_dir"
+	tar -xf "$_archive" --no-same-owner --no-same-permissions -C "$_extract_dir"
+	rm "$_archive"
+
+	printf '%s' "$_extract_dir"
+}
+
+ZIG_VERSION="0.14.0"
 tmp_dir=$(mktemp -d)
 install_prefix="/usr/local"
 trap 'rm -rf $tmp_dir' EXIT
+
+cd "$tmp_dir"
 
 npm install -g typescript typescript-language-server
 npm install -g svelte-language-server
 npm install -g pyright
 
-cargo install --root /usr/local emmylua_ls
-
 GOBIN="$install_prefix/bin" go install golang.org/x/tools/gopls@latest
 
-cd "$tmp_dir"
-
-ZIG_VERSION="0.14.0"
-
-tarball_name="zig.tar.xz"
-curl -fLo "$tarball_name" https://ziglang.org/download/"$ZIG_VERSION"/zig-linux-x86_64-"$ZIG_VERSION".tar.xz
-tar -x --no-same-owner --no-same-permissions -f "$tarball_name"
-cd zig-linux-x86_64-"$ZIG_VERSION"
-cp ./zig "$install_prefix"/bin
+zig_dir="$(dl_untar https://ziglang.org/download/"$ZIG_VERSION"/zig-linux-x86_64-"$ZIG_VERSION".tar.xz)"
+cp "$zig_dir"/zig-*/zig "$install_prefix"/bin
 mkdir -p "$install_prefix"/lib/zig
-cp -r lib/* "$install_prefix"/lib/zig
+cp -r "$zig_dir"/zig-*/lib/* "$install_prefix"/lib/zig
 
-cd "$tmp_dir"
+zls_dir="$(dl_untar https://builds.zigtools.org/zls-linux-x86_64-"$ZIG_VERSION".tar.xz)"
+cp "$zls_dir"/zls "$install_prefix"/bin
 
-tarball_name="zls.tar.xz"
-curl -fLo "$tarball_name" https://builds.zigtools.org/zls-linux-x86_64-"$ZIG_VERSION".tar.xz
-tar -x --no-same-owner --no-same-permissions -f "$tarball_name"
-mv ./zls "$install_prefix"/bin
+nvim_dir="$(dl_untar https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz)"
+cp -r "$nvim_dir"/nvim-*/bin "$nvim_dir"/nvim-*/lib "$nvim_dir"/nvim-*/share "$install_prefix"
 
-tarball_name="nvim.tar.gz"
-curl -fLo "$tarball_name" https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz
-tar -xz --no-same-owner --no-same-permissions -f "$tarball_name"
-cd nvim-linux-x86_64
-cp -r bin lib share "$install_prefix"
+emmylua_dir="$(dl_untar https://github.com/EmmyLuaLs/emmylua-analyzer-rust/releases/latest/download/emmylua_ls-linux-x64.tar.gz)"
+cp "$emmylua_dir"/emmylua_ls "$install_prefix"/bin
