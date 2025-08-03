@@ -35,6 +35,8 @@ npm install -g pyright
 
 GOBIN="$install_prefix/bin" go install golang.org/x/tools/gopls@latest
 
+uv tool install ruff
+
 zig_dir="$(dl_extract https://ziglang.org/download/"$ZIG_VERSION"/zig-linux-x86_64-"$ZIG_VERSION".tar.xz)"
 cp "$zig_dir"/zig-*/zig "$install_prefix"/bin
 mkdir -p "$install_prefix"/lib/zig

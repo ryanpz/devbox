@@ -19,4 +19,5 @@ shellcheck
 shfmt
 tmux
 tree-sitter-cli
+uv
 wl-clipboard
