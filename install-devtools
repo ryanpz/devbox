@@ -22,8 +22,6 @@ dl_extract() {
 	printf '%s' "$_extract_dir"
 }
 
-ZIG_VERSION="0.15.1"
-ZLS_VERSION="0.15.0"
 tmp_dir=$(mktemp -d)
 install_prefix="/usr/local"
 trap 'rm -rf $tmp_dir' EXIT
@@ -38,13 +36,9 @@ GOBIN="$install_prefix/bin" go install golang.org/x/tools/gopls@latest
 
 UV_TOOL_BIN_DIR="$install_prefix/bin" UV_TOOL_DIR="/opt/uv/venv" uv tool install ruff
 
-zig_dir="$(dl_extract https://ziglang.org/download/"$ZIG_VERSION"/zig-x86_64-linux-"$ZIG_VERSION".tar.xz)"
-cp "$zig_dir"/zig-*/zig "$install_prefix"/bin
-mkdir -p "$install_prefix"/lib/zig
-cp -r "$zig_dir"/zig-*/lib/* "$install_prefix"/lib/zig
-
-zls_dir="$(dl_extract https://builds.zigtools.org/zls-x86_64-linux-"$ZLS_VERSION".tar.xz)"
-cp "$zls_dir"/zls "$install_prefix"/bin
+curl -fLO https://raw.githubusercontent.com/ryanpz/zig-swap/refs/heads/main/zig-swap
+chmod +x zig-swap
+cp zig-swap "$install_prefix"/bin
 
 nvim_dir="$(dl_extract https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz)"
 cp -r "$nvim_dir"/nvim-*/bin "$nvim_dir"/nvim-*/lib "$nvim_dir"/nvim-*/share "$install_prefix"
