@@ -32,6 +32,12 @@ npm install -g typescript typescript-language-server
 npm install -g svelte-language-server
 npm install -g pyright
 
+RUST_HOME="/opt/rust"
+export CARGO_HOME="$RUST_HOME"
+export RUSTUP_HOME="$RUST_HOME"
+rustup-init -y --default-toolchain stable --no-modify-path
+"$RUST_HOME"/bin/rustup component add rust-analyzer
+
 GOBIN="$install_prefix/bin" go install golang.org/x/tools/gopls@latest
 
 UV_TOOL_BIN_DIR="$install_prefix/bin" UV_TOOL_DIR="/opt/uv/venv" uv tool install ruff

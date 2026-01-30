@@ -1,6 +1,4 @@
-cargo
 clang-tools-extra
-clippy
 cmake
 fzf
 gcc
@@ -12,9 +10,7 @@ lld-libs
 ninja-build
 npm
 ripgrep
-rust
-rust-analyzer
-rustfmt
+rustup
 shellcheck
 shfmt
 tree-sitter-cli
