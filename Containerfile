@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/fedora-toolbox:latest
+FROM registry.fedoraproject.org/fedora-toolbox:latest
 
 COPY extra-packages install-devtools /
 RUN dnf5 upgrade -y && \
@@ -6,4 +6,4 @@ RUN dnf5 upgrade -y && \
 RUN /install-devtools
 RUN rm /extra-packages /install-devtools
 
-RUN   ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/podman
+RUN ln -fs /usr/bin/distrobox-host-exec /usr/local/bin/podman
